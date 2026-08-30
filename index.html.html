@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EXIA — Equilibrium Xenos Interdiction Authority</title>
+<meta name="description" content="이종 차단을 위한 균형 기관. 테오포로스, 티라, 카타르시스, 하페 — EXIA 세계관 전문.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=IBM+Plex+Mono:wght@300;400;500&family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0A0A0B; --ink-2:#131315; --ink-3:#1F1F22;
+  --bone:#E6E5E0; --bone-2:#DBD9D2; --bone-3:#C6C3B9;
+  --gold:#B08D2F; --gold-lt:#D4B45C; --blood:#8C2B22;
+  --ash:#7C7B76; --ash-lt:#8E8C85;
+  --gut:clamp(20px,5vw,80px);
+  --maxw:1280px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;scroll-padding-top:56px;}
+body{background:var(--ink);color:var(--bone);font-family:'Noto Sans KR',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+a{color:inherit;text-decoration:none;}
+:focus-visible{outline:2px solid var(--gold-lt);outline-offset:3px;}
+
+/* ── 타이포 ── */
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.24em;text-transform:uppercase;display:block;}
+.sec-title{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:clamp(28px,4.4vw,52px);line-height:1.18;letter-spacing:-.015em;}
+.sec-en{font-family:'Bodoni Moda',serif;font-size:clamp(10px,1.1vw,13px);letter-spacing:.42em;text-transform:uppercase;}
+.body{font-size:clamp(13px,1.15vw,15px);line-height:1.95;letter-spacing:-.005em;}
+.body strong{font-weight:500;}
+.dark .body{color:#B4B2AB;} .light .body{color:#43433F;}
+.dark .eyebrow{color:var(--gold-lt);} .light .eyebrow{color:var(--gold);}
+.dark .sec-en{color:var(--ash-lt);} .light .sec-en{color:var(--ash);}
+.gold{color:var(--gold-lt);} .light .gold{color:#7A6220;}
+
+/* ── 레이아웃 ── */
+.dark{background:var(--ink);color:var(--bone);}
+.light{background:var(--bone);color:var(--ink);}
+section{padding:clamp(64px,9vw,140px) var(--gut);}
+.wrap{max-width:var(--maxw);margin:0 auto;}
+.head{margin-bottom:clamp(28px,4vw,54px);}
+.head .eyebrow{margin-bottom:14px;}
+.head .sec-title{margin-bottom:10px;}
+
+/* 2단 그리드 */
+.grid2{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(28px,4vw,64px);}
+@media(min-width:900px){
+  .grid2{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(40px,5vw,90px);align-items:start;}
+  .grid2.even{grid-template-columns:1fr 1fr;}
+  .sticky{position:sticky;top:96px;}
+}
+
+/* ── 내비 ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,11,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--ink-3);}
+.nav-in{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut);height:56px;display:flex;align-items:center;gap:22px;}
+.nav-mark{font-family:'Bodoni Moda',serif;font-size:17px;letter-spacing:.22em;color:var(--bone);flex:0 0 auto;}
+.nav-links{display:none;gap:20px;margin-left:auto;overflow-x:auto;}
+.nav-links a{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;color:#7C7B76;white-space:nowrap;transition:color .2s;}
+.nav-links a:hover{color:var(--gold-lt);}
+@media(min-width:820px){.nav-links{display:flex;}}
+.nav-slogan{margin-left:auto;font-family:'Bodoni Moda',serif;font-style:italic;font-size:12px;color:var(--gold-lt);}
+@media(min-width:820px){.nav-slogan{display:none;}}
+
+/* ── 히어로 ── */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;padding:0;background:var(--ink);overflow:hidden;}
+@media(max-width:760px){.hero{min-height:auto;padding-top:62vw;}}
+.hero-img{position:absolute;top:0;left:0;right:0;background:var(--ink);}
+.hero-img img{display:block;width:100%;height:auto;}
+.hero-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,11,.25) 0%,rgba(10,10,11,.35) 40%,rgba(10,10,11,.88) 78%,var(--ink) 100%);}
+.hero-img .tag{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;color:rgba(212,180,92,.45);text-align:center;line-height:2;}
+.hero-in{position:relative;z-index:2;width:100%;max-width:var(--maxw);margin:0 auto;padding:0 var(--gut) clamp(56px,8vw,96px);}
+.hero-mark{font-family:'Bodoni Moda',serif;font-size:clamp(64px,15vw,190px);letter-spacing:.16em;text-indent:.16em;line-height:.94;margin-bottom:clamp(18px,2.5vw,30px);}
+.hero-rule{width:56px;height:1px;background:var(--gold-lt);margin-bottom:22px;}
+.hero-meta{display:grid;gap:20px;}
+@media(min-width:820px){.hero-meta{grid-template-columns:1fr auto;align-items:end;}}
+.hero-full{font-family:'IBM Plex Mono',monospace;font-size:clamp(10px,1.05vw,12px);letter-spacing:.18em;color:#9E9C94;line-height:2.1;}
+.hero-sl{font-family:'Bodoni Moda',serif;font-style:italic;font-size:clamp(20px,2.6vw,34px);color:var(--gold-lt);}
+.scrollcue{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;color:#5C5B57;margin-top:34px;}
+
+/* ── 시그니처: 균형점 ── */
+.fulcrum{position:relative;height:52px;}
+.fulcrum::before{content:"";position:absolute;top:50%;left:var(--gut);right:var(--gut);height:1px;background:var(--gold);opacity:.5;}
+.fulcrum::after{content:"";position:absolute;top:50%;left:50%;width:11px;height:11px;background:var(--gold);transform:translate(-50%,-50%) rotate(45deg);}
+.f-dark{background:var(--ink);} .f-light,.f-light-fix{background:var(--bone);}
+.f-dl{background:linear-gradient(to bottom,var(--ink) 50%,var(--bone) 50%);}
+.f-ld{background:linear-gradient(to bottom,var(--bone) 50%,var(--ink) 50%);}
+
+/* ── 이미지 ── */
+.ph{display:block;width:100%;height:auto;border:1px solid rgba(212,180,92,.22);}
+.light .ph{border-color:rgba(176,141,47,.28);}
+
+/* ── 이미지 슬롯(미사용 예비) ── */
+.slot{position:relative;width:100%;display:flex;align-items:center;justify-content:center;}
+.dark .slot{background:#0F0F11;outline:1px dashed rgba(212,180,92,.3);outline-offset:-1px;}
+.light .slot{background:#DEDCD5;outline:1px dashed rgba(176,141,47,.38);outline-offset:-1px;}
+.slot .tag{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.13em;text-align:center;line-height:1.9;padding:12px;}
+.dark .slot .tag{color:rgba(212,180,92,.55);} .light .slot .tag{color:rgba(120,100,50,.68);}
+.slot i{position:absolute;width:9px;height:9px;border:1px solid var(--gold);opacity:.75;}
+.slot i:nth-child(1){top:7px;left:7px;border-right:0;border-bottom:0;}
+.slot i:nth-child(2){top:7px;right:7px;border-left:0;border-bottom:0;}
+.slot i:nth-child(3){bottom:7px;left:7px;border-right:0;border-top:0;}
+.slot i:nth-child(4){bottom:7px;right:7px;border-left:0;border-top:0;}
+.r43{aspect-ratio:4/3;} .r169{aspect-ratio:16/9;} .r11{aspect-ratio:1/1;} .r34{aspect-ratio:3/4;}
+
+/* ── 신탁 ── */
+.oracle-frame{border-top:1px solid rgba(212,180,92,.32);border-bottom:1px solid rgba(212,180,92,.32);padding:clamp(30px,4vw,52px) 0;}
+.o-line{display:grid;grid-template-columns:88px 1fr;gap:16px;align-items:baseline;margin-bottom:clamp(16px,2vw,26px);}
+@media(min-width:900px){.o-line{grid-template-columns:150px 1fr;gap:30px;}}
+.o-god{font-family:'Bodoni Moda',serif;font-size:clamp(10px,1.1vw,13px);letter-spacing:.24em;color:var(--gold-lt);text-align:right;}
+.o-txt{font-family:'Nanum Myeongjo',serif;font-size:clamp(17px,2.4vw,32px);line-height:1.5;letter-spacing:-.02em;}
+.o-final{margin-top:clamp(26px,3vw,40px);padding-top:clamp(22px,2.6vw,34px);border-top:1px solid var(--ink-3);font-family:'Nanum Myeongjo',serif;font-size:clamp(18px,2.5vw,34px);line-height:1.65;text-align:center;color:var(--gold-lt);}
+
+/* ── 데이터 행 ── */
+.rows{border-top:1px solid;}
+.dark .rows,.dark .row{border-color:var(--ink-3);}
+.light .rows,.light .row{border-color:var(--bone-3);}
+.row{display:grid;grid-template-columns:100px 1fr;gap:18px;padding:15px 0;border-bottom:1px solid;}
+@media(min-width:900px){.row{grid-template-columns:180px 1fr;gap:30px;}}
+.row dt{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;padding-top:3px;}
+.dark .row dt{color:var(--gold-lt);} .light .row dt{color:var(--gold);}
+.row dd{font-size:clamp(13px,1.1vw,15px);font-weight:400;line-height:1.7;}
+.row dd small{display:block;font-size:12.5px;font-weight:300;color:var(--ash);margin-top:6px;line-height:1.8;}
+
+/* ── 인용 ── */
+.pull{padding:clamp(24px,3vw,44px);}
+.light .pull{background:var(--ink);color:var(--bone);}
+.dark .pull{background:var(--bone);color:var(--ink);}
+.pull .bar{width:26px;height:1px;background:var(--gold);margin-bottom:18px;}
+.pull .k{font-family:'Nanum Myeongjo',serif;font-size:clamp(18px,2.2vw,30px);font-weight:700;line-height:1.5;margin-bottom:14px;}
+.pull .d{font-size:clamp(12.5px,1.05vw,14px);line-height:1.9;}
+.light .pull .d{color:#A9A7A0;} .dark .pull .d{color:#4A4A48;}
+
+/* ── 카드 ── */
+.cards{display:grid;gap:14px;grid-template-columns:1fr;}
+@media(min-width:700px){.cards{grid-template-columns:1fr 1fr;}}
+.card{padding:clamp(18px,2vw,28px);border:1px solid;}
+.dark .card{background:var(--ink-2);border-color:var(--ink-3);}
+.light .card{background:var(--bone-2);border-color:var(--bone-3);}
+.card-h{display:flex;align-items:center;gap:11px;margin-bottom:13px;}
+.card-h .idx{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.1em;padding:3px 6px 2px;border:1px solid;}
+.dark .card-h .idx{color:var(--gold-lt);border-color:rgba(212,180,92,.45);}
+.light .card-h .idx{color:var(--gold);border-color:var(--gold);}
+.card-h .t{font-family:'Nanum Myeongjo',serif;font-weight:700;font-size:clamp(15px,1.5vw,19px);}
+.card p{font-size:13px;line-height:1.9;}
+.dark .card p{color:#A5A39C;} .light .card p{color:#4C4C4A;}
+
+/* ── 조직도 ── */
+.org-node{border:1px solid var(--bone-3);background:var(--bone-2);padding:14px 16px;text-align:center;}
+.org-node.zeus{background:var(--ink);border-color:var(--ink);color:var(--bone);}
+.org-node .n{font-family:'Bodoni Moda',serif;font-size:clamp(13px,1.4vw,17px);letter-spacing:.26em;text-indent:.26em;}
+.org-node .s{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:var(--ash);margin-top:6px;}
+.org-node.zeus .s{color:var(--gold-lt);}
+.org-stem{width:1px;height:22px;background:var(--gold);margin:0 auto;opacity:.55;}
+.org-bar{height:1px;background:var(--gold);opacity:.55;margin:0 10%;}
+.org-drop{display:grid;grid-template-columns:repeat(5,1fr);}
+.org-drop span{height:14px;border-left:1px solid var(--gold);opacity:.55;margin-left:calc(50% - .5px);}
+.org-branch{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;}
+.org-branch .b{border:1px solid var(--bone-3);background:var(--bone-2);padding:12px 3px;text-align:center;font-family:'Bodoni Moda',serif;font-size:clamp(8px,.85vw,12px);letter-spacing:.05em;line-height:1.4;}
+.org-branch .b span{display:block;font-family:'Nanum Myeongjo',serif;font-weight:700;font-size:clamp(8px,.8vw,11px);letter-spacing:0;color:var(--ash);margin-top:5px;}
+.org-branch .b.apollo{background:#fff;border-color:var(--gold);}
+.org-branch .b.apollo span{color:var(--gold);}
+.org-sub{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:26px;}
+.org-sub .b{border:1px dashed var(--bone-3);padding:12px 8px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;color:#575652;}
+.org-note{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.08em;color:var(--ash);margin-top:16px;text-align:center;line-height:1.9;}
+
+/* ── 사단 ── */
+.div-code{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.dark .div-code{color:var(--gold-lt);} .light .div-code{color:var(--gold);}
+.div-code::after{content:"";flex:1;height:1px;background:currentColor;opacity:.35;}
+.div-name{font-family:'Bodoni Moda',serif;font-size:clamp(38px,6.5vw,88px);letter-spacing:.06em;text-indent:.06em;line-height:1;margin-bottom:12px;}
+.div-kr{font-family:'Nanum Myeongjo',serif;font-size:clamp(15px,1.6vw,20px);font-weight:700;}
+.div-kr span{font-family:'Noto Sans KR';font-weight:300;font-size:.75em;color:var(--ash-lt);margin-left:10px;}
+.div-slogan{font-family:'Nanum Myeongjo',serif;font-size:clamp(14px,1.5vw,19px);line-height:1.75;border-left:1px solid var(--gold);padding-left:16px;margin:26px 0 0;}
+.dark .div-slogan{color:var(--gold-lt);} .light .div-slogan{color:#7A6220;}
+.unit{margin-top:20px;padding-top:18px;border-top:1px solid;}
+.dark .unit{border-color:var(--ink-3);} .light .unit{border-color:var(--bone-3);}
+.unit .u-n{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.15em;margin-bottom:8px;}
+.dark .unit .u-n{color:var(--gold-lt);} .light .unit .u-n{color:var(--gold);}
+.unit p{font-size:13px;line-height:1.9;}
+.dark .unit p{color:#A5A39C;} .light .unit p{color:#4C4C4A;}
+
+/* ── 테오 / 카타르 분할 ── */
+.duo{display:grid;grid-template-columns:1fr;}
+@media(min-width:760px){.duo{grid-template-columns:1fr 1fr;}}
+.duo>div{padding:clamp(34px,5vw,80px) var(--gut);}
+.duo .theo{background:var(--ink);color:var(--bone);}
+.duo .kathar{background:var(--bone);color:var(--ink);}
+.duo .lbl{font-family:'Bodoni Moda',serif;font-size:clamp(26px,3.4vw,48px);letter-spacing:.12em;margin-bottom:6px;}
+.duo .kr{font-family:'Nanum Myeongjo',serif;font-weight:700;font-size:clamp(14px,1.4vw,18px);margin-bottom:22px;}
+.duo .theo .kr{color:var(--gold-lt);} .duo .kathar .kr{color:var(--gold);}
+.duo p{font-size:13.5px;line-height:2;}
+.duo .theo p{color:#A5A39C;} .duo .kathar p{color:#4C4C4A;}
+.duo .chip{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.12em;padding:5px 9px 4px;display:inline-block;margin-top:22px;border:1px solid;}
+.duo .theo .chip{border-color:rgba(212,180,92,.45);color:var(--gold-lt);}
+.duo .kathar .chip{border-color:var(--gold);color:var(--gold);}
+
+/* ── 티라 ── */
+.t-row{padding:18px 0;border-bottom:1px solid var(--ink-3);}
+.t-top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:11px;}
+.t-g{font-family:'Bodoni Moda',serif;font-size:clamp(19px,2.2vw,30px);letter-spacing:.08em;}
+.t-g em{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.16em;color:var(--ash);margin-left:12px;}
+.t-c{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--gold-lt);text-align:right;}
+.t-bar{height:3px;background:#1A1A1C;position:relative;margin-bottom:11px;}
+.t-bar span{position:absolute;inset:0 auto 0 0;background:var(--gold-lt);}
+.t-row.ss .t-bar span{background:linear-gradient(90deg,var(--gold-lt),var(--blood));}
+.t-row p{font-size:13px;line-height:1.85;color:#A5A39C;}
+
+/* ── 카타르시스 게이지 ── */
+.gauge{display:grid;grid-template-columns:1fr;border:1px solid var(--bone-3);}
+@media(min-width:960px){.gauge{grid-template-columns:repeat(5,1fr);}}
+.g-step{padding:clamp(18px,2vw,26px);border-bottom:1px solid rgba(0,0,0,.13);}
+@media(min-width:960px){.g-step{border-bottom:0;border-right:1px solid rgba(0,0,0,.13);min-height:290px;}.g-step:last-child{border-right:0;}}
+.g-h{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;}
+.g-dot{width:7px;height:7px;transform:rotate(45deg);flex:0 0 7px;}
+.g-n{font-family:'Nanum Myeongjo',serif;font-weight:700;font-size:clamp(15px,1.5vw,19px);}
+.g-t{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;margin-left:auto;}
+.g-step p{font-size:12.5px;line-height:1.9;}
+.g1{background:#EFEEEA;} .g1 .g-n{color:#1A1A19;} .g1 .g-dot{background:var(--gold);} .g1 .g-t{color:#8A887F;} .g1 p{color:#4C4C4A;}
+.g2{background:#C9C7C0;} .g2 .g-n{color:#171716;} .g2 .g-dot{background:var(--gold);} .g2 .g-t{color:#6E6C64;} .g2 p{color:#3E3E3C;}
+.g3{background:#8A8880;} .g3 .g-n{color:#0E0E0D;} .g3 .g-dot{background:#3A2E10;} .g3 .g-t{color:#3C3B36;} .g3 p{color:#232322;}
+.g4{background:#3A3A38;} .g4 .g-n{color:#E6E5E0;} .g4 .g-dot{background:var(--gold-lt);} .g4 .g-t{color:#9A988F;} .g4 p{color:#B4B2AB;}
+.g5{background:#0A0A0B;border-top:1px solid var(--blood);} .g5 .g-n{color:var(--blood);} .g5 .g-dot{background:var(--blood);} .g5 .g-t{color:var(--blood);} .g5 p{color:#8E8C85;}
+@media(min-width:960px){.g5{border-top:0;border-left:1px solid var(--blood);}}
+.cap{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;color:var(--ash);margin-top:18px;line-height:1.9;}
+
+/* ── 용어 ── */
+.terms{border-top:1px solid;}
+.dark .terms,.dark .term{border-color:var(--ink-3);}
+.light .terms,.light .term{border-color:var(--bone-3);}
+.term{padding:22px 0;border-bottom:1px solid;display:grid;grid-template-columns:1fr;gap:10px;}
+@media(min-width:900px){.term{grid-template-columns:230px 1fr;gap:36px;}}
+.term-h .en{font-family:'Bodoni Moda',serif;font-size:clamp(14px,1.4vw,18px);letter-spacing:.12em;display:block;}
+.dark .term-h .en{color:var(--gold-lt);} .light .term-h .en{color:var(--gold);}
+.term-h .kr{font-family:'Nanum Myeongjo',serif;font-weight:700;font-size:clamp(15px,1.5vw,19px);margin-top:4px;display:block;}
+.term p{font-size:13.5px;line-height:1.95;}
+.dark .term p{color:#A5A39C;} .light .term p{color:#4C4C4A;}
+.term .sl{font-size:13px;margin-bottom:10px;}
+.dark .term .sl{color:var(--gold-lt);} .light .term .sl{color:var(--gold);}
+
+/* ── 신타그마 ── */
+.synt{border:1px solid;padding:clamp(22px,3vw,40px);}
+.dark .synt{background:var(--ink-2);border-color:var(--ink-3);}
+.synt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:22px;}
+.sq{aspect-ratio:1;border:1px solid var(--ink-3);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:clamp(8px,.9vw,11px);letter-spacing:.06em;color:#6A6963;text-align:center;line-height:1.5;padding:6px;}
+.sq.req{border-color:var(--gold);background:var(--bone);color:var(--ink);}
+.synt-rule{display:grid;grid-template-columns:26px 1fr;gap:10px;font-size:13px;line-height:1.8;color:#A5A39C;padding:10px 0;border-top:1px solid var(--ink-3);}
+.synt-rule b{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--gold-lt);font-weight:400;padding-top:3px;}
+
+/* ── 제복 ── */
+.uni{display:grid;grid-template-columns:1fr;}
+@media(min-width:760px){.uni{grid-template-columns:1fr 1fr;}}
+.uni .u-theo{background:var(--ink);color:var(--bone);}
+.uni .u-kath{background:var(--bone);color:var(--ink);}
+.uni .u-body{padding:clamp(20px,2.6vw,40px);}
+.uni .u-t{font-family:'Bodoni Moda',serif;font-size:clamp(17px,2.2vw,30px);letter-spacing:.14em;margin-bottom:5px;}
+.uni .u-k{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;margin-bottom:18px;}
+.uni .u-theo .u-k{color:var(--gold-lt);} .uni .u-kath .u-k{color:var(--gold);}
+.uni li{list-style:none;font-size:13px;line-height:2.2;padding-left:12px;position:relative;}
+.uni .u-theo li{color:#A5A39C;} .uni .u-kath li{color:#4C4C4A;}
+.uni li::before{content:"";position:absolute;left:0;top:11px;width:4px;height:4px;background:var(--gold);transform:rotate(45deg);}
+
+/* ── 푸터 ── */
+footer{background:var(--ink);padding:clamp(60px,8vw,110px) var(--gut);text-align:center;border-top:1px solid var(--ink-3);}
+footer .wm{font-family:'Bodoni Moda',serif;font-size:clamp(30px,5vw,64px);letter-spacing:.24em;text-indent:.24em;margin-bottom:20px;}
+footer .sl{font-family:'Bodoni Moda',serif;font-style:italic;font-size:clamp(18px,2.4vw,30px);color:var(--gold-lt);margin-bottom:30px;}
+footer .m{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.2em;color:#5C5B57;line-height:2.2;}
+.f-rule{width:1px;height:44px;background:var(--gold);opacity:.55;margin:0 auto 26px;}
+
+/* ── 스크롤 리빌 ── */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease;}
+.rv.on{opacity:1;transform:none;}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  .rv{opacity:1;transform:none;transition:none;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <a href="#top" class="nav-mark">EXIA</a>
+    <div class="nav-links">
+      <a href="#authority">기관</a>
+      <a href="#threats">위협</a>
+      <a href="#command">조직</a>
+      <a href="#divisions">사단</a>
+      <a href="#theophoros">능력</a>
+      <a href="#katharsis">오염</a>
+      <a href="#haphe">하페</a>
+      <a href="#syntagma">운용</a>
+      <a href="#uniform">제복</a>
+    </div>
+    <span class="nav-slogan">All For Equilibrium.</span>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<header class="hero" id="top">
+  <div class="hero-img">
+    <img src="https://i.ifh.cc/7XLqBa.jpg" alt="EXIA">
+  </div>
+  <div class="hero-in">
+    <h1 class="hero-mark">EXIA</h1>
+    <div class="hero-rule"></div>
+    <div class="hero-meta">
+      <div class="hero-full">EQUILIBRIUM XENOS INTERDICTION AUTHORITY<br>이종 차단을 위한 균형 기관</div>
+      <div class="hero-sl">All For Equilibrium.</div>
+    </div>
+    <div class="scrollcue">↓ SCROLL</div>
+  </div>
+</header>
+
+<!-- ══ 신탁 ══ -->
+<section class="dark" id="oracle">
+  <div class="wrap">
+    <div class="grid2 rv">
+      <div>
+        <div class="head" style="margin-bottom:0;">
+          <span class="eyebrow">The Beginning</span>
+          <h2 class="sec-title">신은 움직였다.<br>이유는 알 수 없었다.</h2>
+        </div>
+      </div>
+      <div>
+        <p class="body">세계가 바뀌고 대지와 지각이 뒤틀렸다. 인류 중 일부가 초월적 힘에 눈을 떴으나 그 힘을 주체하지 못했고, 감염된 것처럼 괴물로 변해갔다. 세계는 그들을 <strong>감염체</strong>라 불렀다. 각성한 순간부터 사냥의 대상이었다. 인간과 각성자는 서로를 죽였고, 괴물이 된 자들은 모든 것을 부쉈다. 세계가 무너져가던 그때, 신탁이 내려왔다.</p>
+      </div>
+    </div>
+
+    <div class="oracle-frame rv" style="margin-top:clamp(40px,6vw,90px);">
+      <div class="o-line"><div class="o-god">ARES</div><div class="o-txt">아레스여, 칼을 들라.</div></div>
+      <div class="o-line"><div class="o-god">POSEIDON</div><div class="o-txt">포세이돈이여, 대지를 뒤흔들라.</div></div>
+      <div class="o-line"><div class="o-god">APOLLO</div><div class="o-txt">아폴론이여, 생명에 손을 내밀라.</div></div>
+      <div class="o-line"><div class="o-god">ATHENA</div><div class="o-txt">아테나여, 길을 읽으라.</div></div>
+      <div class="o-line" style="margin-bottom:0;"><div class="o-god">THANATOS</div><div class="o-txt">타나토스여, 끝을 거두라.</div></div>
+      <div class="o-final">다섯의 신이 모여 하나로 서는 날,<br>균형은 시작되리라.</div>
+    </div>
+
+    <div class="grid2 rv" style="margin-top:clamp(40px,6vw,90px);">
+      <img class="ph" src="https://i.ifh.cc/dzVp1G.jpg" alt="신탁 강림" loading="lazy">
+      <div>
+        <p class="body">다섯 신의 이름이 불렸고, 전 세계 통합 기관 <strong class="gold">EXIA</strong>가 세워졌다. 감염체라 불리던 자들에게 이름이 주어졌다. 전투의 힘을 가진 자는 <strong>테오</strong>, 정화의 힘을 가진 자는 <strong>카타르</strong>.</p>
+        <p class="body" style="margin-top:20px;">엑시아는 괴물화의 원인이 체내 오염도 축적임을 밝혀냈고, 카타르의 정화 없이 테오는 반드시 괴물이 된다는 것을 알아냈다. 신의 이름 아래 사단이 세워지고, 테오와 카타르는 균형을 위해 움직이기 시작했다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="fulcrum f-dl"></div>
+
+<!-- ══ 기관 ══ -->
+<section class="light" id="authority">
+  <div class="wrap">
+    <div class="grid2">
+      <div class="sticky rv">
+        <div class="head">
+          <span class="eyebrow">The Authority</span>
+          <h2 class="sec-title">엑시아</h2>
+          <div class="sec-en">Organization</div>
+        </div>
+      </div>
+      <div class="rv">
+        <dl class="rows">
+          <div class="row"><dt>정식 명칭</dt><dd>Equilibrium Xenos Interdiction Authority</dd></div>
+          <div class="row"><dt>한국어 명칭</dt><dd>이종 차단을 위한 균형 기관</dd></div>
+          <div class="row"><dt>통칭</dt><dd>EXIA · 엑시아</dd></div>
+          <div class="row"><dt>소속원 호칭</dt><dd>Exian <small>엑시안</small></dd></div>
+          <div class="row"><dt>슬로건</dt><dd style="font-family:'Bodoni Moda',serif;font-style:italic;font-size:1.15em;">All For Equilibrium.</dd></div>
+        </dl>
+
+        <p class="body" style="margin:clamp(28px,3vw,44px) 0;">감염체를 <strong>살상 대상에서 관리·운용 대상으로 재분류한 최초의 기관.</strong> ‘테오포로스’라는 명칭 자체가 엑시아가 만든 것이다. ‘감염체’라는 낙인을 벗기고 ‘신을 짊어진 자’라는 이름을 부여했다. 그 이름이 존중에서 나온 것인지, 효율적 운용을 위한 브랜딩이었는지는 지금도 해석이 갈린다.</p>
+
+        <div class="pull">
+          <div class="bar"></div>
+          <div class="k">엑시아는 어느 편도 들지 않는다.</div>
+          <div class="d">인간만을 돕지도, 능력자만을 돕지도 않는다. 균형을 깨는 쪽이 적이다. 이것은 상황에 따라 엑시아가 <strong class="gold">인간의 적</strong>이 될 수도 있다는 뜻이다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="fulcrum f-ld"></div>
+
+<!-- ══ 위협 ══ -->
+<section class="dark" id="threats">
+  <div class="wrap">
+    <div class="grid2">
+      <div class="sticky rv">
+        <div class="head">
+          <span class="eyebrow">Threats</span>
+          <h2 class="sec-title">균형을 깨는<br>것들</h2>
+          <div class="sec-en">Hostile Forces</div>
+        </div>
+        <img class="ph" src="https://i.ifh.cc/oyLLab.jpg" alt="변이지대의 괴물" loading="lazy">
+      </div>
+      <div class="cards rv">
+        <div class="card">
+          <div class="card-h"><span class="idx">Ⅰ</span><span class="t">괴물</span></div>
+          <p>이름조차 없이 그저 괴물이라 불리는, 인간이 아닌 개체. 붕괴체와는 다른 존재로 각성자 등장 이후 끊임없이 나타난다. 인간을 먹거나 공격하며 의사소통이 불가능하다.</p>
+        </div>
+        <div class="card">
+          <div class="card-h"><span class="idx">Ⅱ</span><span class="t">붕괴체</span></div>
+          <p>카타르시스를 넘겨 괴물이 된 존재. 자아가 없고 본능으로 파괴한다. 최우선 토벌 대상.</p>
+        </div>
+        <div class="card">
+          <div class="card-h"><span class="idx">Ⅲ</span><span class="t">이탈 능력자 · 빌런</span></div>
+          <p>엑시아에 소속되지 않았거나 이탈한 테오. 자기 능력으로 인간 사회를 지배하려 하거나 폭력을 행사하는 세력.</p>
+        </div>
+        <div class="card">
+          <div class="card-h"><span class="idx">Ⅳ</span><span class="t">반능력자 인간 세력</span></div>
+          <p>감염자 자체를 위협으로 보고 말살하려는 인간 극단주의 조직. 엑시아 입장에서는 이 또한 균형을 깨는 세력, 즉 적이다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="fulcrum f-dl"></div>
+
+<!-- ══ 조직 ══ -->
+<section class="light" id="command">
+  <div class="wrap">
+    <div class="head rv">
+      <span class="eyebrow">Command Structure</span>
+      <h2 class="sec-title">조직 계통도</h2>
+      <div class="sec-en">Chain of Command</div>
+    </div>
+    <div class="grid2">
+      <div class="rv">
+        <div class="org-node zeus"><div class="n">ZEUS</div><div class="s">심판관회의 · 7인</div></div>
+        <div class="org-stem"></div>
+        <div class="org-node"><div class="n" style="font-size:clamp(11px,1.1vw,14px);">DIRECTOR GENERAL</div><div class="s">총사령관</div></div>
+        <div class="org-stem"></div>
+        <div class="org-bar"></div>
+        <div class="org-drop"><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="org-branch">
+          <div class="b">ARES<span>아레스</span></div>
+          <div class="b">POSEI<br>DON<span>포세이돈</span></div>
+          <div class="b apollo">APOLLO<span>아폴론</span></div>
+          <div class="b">ATHENA<span>아테나</span></div>
+          <div class="b">THANA<br>TOS<span>타나토스</span></div>
+        </div>
+        <div class="org-sub">
+          <div class="b">ORACLE · 신탁해독국</div>
+          <div class="b">THEMIS · 치안감찰기관</div>
+        </div>
+        <div class="org-note">점선 = ZEUS 직속 직할 기관<br>APOLLO(백)만이 정화 계열. 나머지 사단은 전투 계열.</div>
+      </div>
+      <div class="rv">
+        <dl class="rows">
+          <div class="row"><dt>ZEUS</dt><dd>최고 의사결정 기구<small>7명의 심판관. 이름·코드네임 없이 Ⅰ~Ⅶ 번호로만 호칭한다. 얼굴, 신원, 감염자 여부 일체 비공개. 결정만 하달한다.</small></dd></div>
+          <div class="row"><dt>DIRECTOR GENERAL</dt><dd>총사령관<small>심판관회의의 결정을 실행하는 실질적 군 수장. 공개직이며 외부 공식 창구.</small></dd></div>
+          <div class="row"><dt>ARCHON</dt><dd>아르콘 (사단장)<small>각 사단 최고 지휘관. 사단당 1명. 티라와 별개의 임명직이며, 티라 위계의 유일한 예외다.</small></dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="fulcrum f-ld"></div>
+
+<!-- ══ 사단 ══ -->
+<section class="dark" id="divisions" style="padding-bottom:clamp(40px,5vw,70px);">
+  <div class="wrap">
+    <div class="head rv">
+      <span class="eyebrow">Five Divisions</span>
+      <h2 class="sec-title">다섯 사단</h2>
+      <div class="sec-en">Combat &amp; Operations</div>
+    </div>
+  </div>
+</section>
+
+<section class="dark" style="padding-top:0;">
+  <div class="wrap">
+    <div class="grid2 rv">
+      <div class="sticky">
+        <div class="div-code">DIV—01 · 전투사단</div>
+        <div class="div-name">ARES</div>
+        <div class="div-kr">아레스 <span>전쟁의 신</span></div>
+        <div class="div-slogan">전쟁의 신의 이름으로,<br>균형을 위해 싸운다.</div>
+      </div>
+      <div>
+        <img class="ph" src="https://i.ifh.cc/4XcXyC.jpg" alt="ARES 전선 작전" loading="lazy">
+        <p class="body" style="margin-top:24px;">엑시아의 주력 전투 전력. 가장 규모가 크고, 사상자도 가장 많다.</p>
+        <div class="unit"><div class="u-n">FRONTIS · 프론티스</div><p>전선 유지·직접 제압. 붕괴체 토벌, 이탈 능력자 진압, 변이지대 지상 작전.</p></div>
+        <div class="unit"><div class="u-n">STRIKER · 타격대</div><p>기동 타격·정밀 돌입·고난도 제압. 목표 지정 투입 후 빠르게 이탈하는 단기 고강도 작전 특화.</p></div>
+      </div>
+    </div>
+
+    <div class="grid2 rv" style="margin-top:clamp(56px,8vw,120px);">
+      <div class="sticky">
+        <div class="div-code">DIV—02 · 긴급대응사단</div>
+        <div class="div-name">POSEIDON</div>
+        <div class="div-kr">포세이돈 <span>대지를 뒤흔드는 신</span></div>
+        <div class="div-slogan">파멸의 신의 이름으로,<br>균형을 위해 세계를 흔든다.</div>
+      </div>
+      <div>
+        <img class="ph" src="https://i.ifh.cc/oVoGKB.jpg" alt="POSEIDON 광역 파괴" loading="lazy">
+        <p class="body" style="margin-top:24px;">단일 편제. 소수 정예. 엑시아의 <strong class="gold">최종 수단</strong>. 한 명이 전장 단위의 영향력을 행사한다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="fulcrum f-dl"></div>
+
+<!-- APOLLO — 유일한 백색 사단 -->
+<section class="light">
+  <div class="wrap">
+    <div class="grid2 rv">
+      <div class="sticky">
+        <div class="div-code">DIV—03 · 정화사단</div>
+        <div class="div-name">APOLLO</div>
+        <div class="div-kr">아폴론 <span>빛과 치유의 신</span></div>
+        <div class="div-slogan">정화의 신의 이름으로,<br>균형을 위해 손을 내민다.</div>
+      </div>
+      <div>
+        <img class="ph" src="https://i.ifh.cc/bzrM9S.jpg" alt="APOLLO 정화" loading="lazy">
+        <p class="body" style="margin-top:24px;">엑시아 전체의 <strong>생명줄</strong>. 유일한 카타르 사단이며, 이 사단이 멈추면 모든 테오가 붕괴한다.</p>
+        <div class="unit"><div class="u-n">ARC · 아크</div><p>Advanced Response Corps. 전장 동행 긴급 정화반. 혼성 팀에 배치되어 전투원과 함께 작전에 투입된다.</p></div>
+        <div class="unit"><div class="u-n">MED · 메드</div><p>Medical &amp; Environmental Decontamination. 후방 기지 상주. 정기 정화·카타르시스 모니터링·억제제 처방·의료 지원. 요원의 남은 출격 횟수 계산, 한계 통보, 종결 대상 보고를 담당한다.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="fulcrum f-ld"></div>
+
+<section class="dark">
+  <div class="wrap">
+    <div class="grid2 rv">
+      <div class="sticky">
+        <div class="div-code">DIV—04 · 전략기술사단</div>
+        <div class="div-name">ATHENA</div>
+        <div class="div-kr">아테나 <span>지혜와 기예의 여신</span></div>
+        <div class="div-slogan">지혜의 여신의 이름으로,<br>균형을 위해 길을 읽는다.</div>
+      </div>
+      <div>
+        <img class="ph" src="https://i.ifh.cc/NNgwNX.jpg" alt="ATHENA 관제실" loading="lazy">
+        <p class="body" style="margin-top:24px;">단일 편제. 엑시아 <strong>최대 규모</strong> 사단. 전장의 두뇌이자 조직 전체의 인프라.</p>
+        <div class="unit"><div class="u-n">STRATEGY · 전략 측</div><p>전술 설계, 정보 분석, 적 능력 해독, 정찰, 변이지대 분석.</p></div>
+        <div class="unit"><div class="u-n">TECHNOLOGY · 기술 측</div><p>아니마(Anima) 개발·제조·정비, 붕괴체 잔해 분석 및 소재 추출.</p></div>
+        <div class="unit"><div class="u-n">LOGISTICS · 병참 측</div><p>기지 운영, 보급, 억제제 생산·유통, 자원 관리.</p></div>
+      </div>
+    </div>
+
+    <div class="grid2 rv" style="margin-top:clamp(56px,8vw,120px);">
+      <div class="sticky">
+        <div class="div-code">DIV—05 · 특무종결사단</div>
+        <div class="div-name">THANATOS</div>
+        <div class="div-kr">타나토스 <span>죽음 그 자체</span></div>
+        <div class="div-slogan">죽음의 이름으로,<br>균형을 위해 끝을 거둔다.</div>
+      </div>
+      <div>
+        <img class="ph" src="https://i.ifh.cc/c227ff.jpg" alt="THANATOS 잠입" loading="lazy">
+        <p class="body" style="margin-top:24px;">단일 편제. 첩보·잠입·암살·정보 공작에 더해 붕괴체 토벌, 예방 종결, 잔해 수거를 수행한다. 소속원 신원은 비공개이며, <strong class="gold">사망 시 기록이 말소된다.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="fulcrum f-dl"></div>
+
+<!-- ══ 직할 기관 ══ -->
+<section class="light" id="bureaus">
+  <div class="wrap">
+    <div class="grid2">
+      <div class="sticky rv">
+        <div class="head">
+          <span class="eyebrow">Direct Command · ZEUS</span>
+          <h2 class="sec-title">직할 기관</h2>
+          <div class="sec-en">Bureaus</div>
+        </div>
+        <img class="ph" src="https://i.ifh.cc/bT6T6A.jpg" alt="ORACLE 신탁 수신실" loading="lazy">
+      </div>
+      <div class="terms rv">
+        <div class="term">
+          <div class="term-h"><span class="en">ORACLE</span><span class="kr">신탁해독국</span></div>
+          <div>
+            <p class="sl">신탁을 받들어, 균형의 방향을 비춘다.</p>
+            <p>신탁 수신 감시·해독·해석. 엑시아 내 가장 폐쇄적인 기관. 신탁은 예측 불가능하게 내려오며, 최단 11개월 최장 5년 2개월 간격이 기록되어 있다. 신탁의 형태와 수신자는 매번 달라진다.</p>
+          </div>
+        </div>
+        <div class="term" style="border-bottom:0;">
+          <div class="term-h"><span class="en">THEMIS</span><span class="kr">치안감찰기관</span></div>
+          <div>
+            <p class="sl">심판의 여신의 이름으로, 균형을 위해 저울을 든다.</p>
+            <p>시민이 엑시아와 만나는 첫 번째 얼굴이자, 엑시아 내부의 감시자.</p>
+            <p style="margin-top:12px;"><strong>외부 —</strong> 사건 신고 접수, 초동 대응, 민간 분쟁 조사, 변이지대 주변 통제, 민간인 보호.<br><strong>내부 —</strong> 규율 위반 조사, 민간인 피해 심사, 종결 판정 검증, 사단 간 중재.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="fulcrum f-ld"></div>
+
+<!-- ══ 테오포로스 ══ -->
+<section class="dark" id="theophoros" style="padding-bottom:clamp(40px,5vw,70px);">
+  <div class="wrap">
+    <div class="grid2 rv">
+      <div>
+        <div class="head" style="margin-bottom:0;">
+          <span class="eyebrow">The Awakened</span>
+          <h2 class="sec-title">신을 짊어진 자</h2>
+          <div class="sec-en">Theophoros</div>
+        </div>
+      </div>
+      <div>
+        <p class="body">신들의 선택 이후 각성한 초월적 능력 보유자의 통칭. 줄여서 <strong class="gold">테오(Theo)</strong>라 부른다. 태어날 때부터 인자를 가지고 있다가 각성하는 경우와 후천적으로 각성하는 경우가 존재하며, <strong>각성 시점·조건·계기에 규칙성은 발견되지 않았다.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="duo">
+  <div class="theo">
+    <div class="lbl">THEO</div>
+    <div class="kr">테오 · 전투 계열</div>
+    <p>신의 힘이 공격·파괴·방해·감각·인지 등 전투 및 작전 수행 방향으로 발현된 테오. 별칭 없이 그냥 ‘테오’라 불린다.</p>
+    <p style="margin-top:16px;">엑시아 인원의 대다수. 능력은 개인마다 다르며 특성에 따라 아레스·포세이돈·아테나·타나토스에 배속된다.</p>
+    <span class="chip">검정 제복 · 은장</span>
+  </div>
+  <div class="kathar">
+    <div class="lbl">KATHAR</div>
+    <div class="kr">카타르 · 정화 계열</div>
+    <p>신의 힘이 타인의 카타르시스를 흡수·중화하는 방향으로 발현된 테오. 아폴론 사단에 배속된다.</p>
+    <p style="margin-top:16px;">전투 계열에 비해 수가 <strong>절대적으로 부족하다.</strong> 이 결핍이 엑시아의 모든 구조를 결정한다.</p>
+    <span class="chip">흰 제복 · 금장</span>
+  </div>
+</div>
+
+<!-- ══ 티라 ══ -->
+<section class="dark" id="thyra">
+  <div class="wrap">
+    <div class="grid2">
+      <div class="sticky rv">
+        <div class="head">
+          <span class="eyebrow">Rank</span>
+          <h2 class="sec-title">티라</h2>
+          <div class="sec-en">Thyra</div>
+        </div>
+        <p class="body">각성하는 순간 결정되는 <strong>선천적 등급.</strong> 신이 열어준 문의 수이며, 노력이나 훈련으로는 바뀌지 않는다. <strong class="gold">티라가 곧 계급이다.</strong> 엑시아 내 모든 위계가 이 숫자 하나로 결정된다.</p>
+      </div>
+      <div class="rv">
+        <div class="t-row ss">
+          <div class="t-top"><span class="t-g">SS <em>THYRA</em></span><span class="t-c">극소수 · 역사상 30인 미만</span></div>
+          <div class="t-bar"><span style="width:100%"></span></div>
+          <p>능력이 압도적이지만 카타르시스 상승 속도도 극단적이라 대부분 붕괴체로 전환된다. 살아 있는 SS티라 자체가 기적.</p>
+        </div>
+        <div class="t-row">
+          <div class="t-top"><span class="t-g">S <em>THYRA</em></span><span class="t-c">희귀 · 손에 꼽힘</span></div>
+          <div class="t-bar"><span style="width:80%"></span></div>
+          <p>단독으로 광역 제압이 가능하거나, 전장 전체를 읽어내는 수준.</p>
+        </div>
+        <div class="t-row">
+          <div class="t-top"><span class="t-g">A <em>THYRA</em></span><span class="t-c">적은 편 · 고위 전력</span></div>
+          <div class="t-bar"><span style="width:62%"></span></div>
+          <p>한 명이 전장의 흐름을 바꾼다. B티라와의 격차가 가장 체감되는 벽.</p>
+        </div>
+        <div class="t-row">
+          <div class="t-top"><span class="t-g">B <em>THYRA</em></span><span class="t-c">최다 비중 · 표준</span></div>
+          <div class="t-bar"><span style="width:44%"></span></div>
+          <p>엑시아의 주력이자 표준. 대부분의 작전이 B티라 중심으로 설계된다.</p>
+        </div>
+        <div class="t-row">
+          <div class="t-top"><span class="t-g">C <em>THYRA</em></span><span class="t-c">적은 편</span></div>
+          <div class="t-bar"><span style="width:27%"></span></div>
+          <p>기본 전투는 가능하지만 B티라에 비해서는 확실히 밀리는 위치.</p>
+        </div>
+        <div class="t-row" style="border-bottom:0;">
+          <div class="t-top"><span class="t-g">D <em>THYRA</em></span><span class="t-c">후방 · 행정</span></div>
+          <div class="t-bar"><span style="width:11%"></span></div>
+          <p>능력이 거의 발현되지 않은 수준. 후방 보조나 행정 배치.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="fulcrum f-dl"></div>
+
+<!-- ══ 카타르시스 ══ -->
+<section class="light" id="katharsis">
+  <div class="wrap">
+    <div class="grid2 rv" style="margin-bottom:clamp(28px,4vw,52px);">
+      <div>
+        <div class="head" style="margin-bottom:0;">
+          <span class="eyebrow">Contamination</span>
+          <h2 class="sec-title">카타르시스</h2>
+          <div class="sec-en">Katharsis</div>
+        </div>
+      </div>
+      <div>
+        <p class="body">테오의 오염도. 카타르는 테오의 카타르시스를 낮춰줄 의무가 있으나, 상대의 오염도에 따라 카타르가 받는 고통의 정도가 달라지기에 <strong>매칭률에 따라 배정된다.</strong></p>
+      </div>
+    </div>
+
+    <div class="gauge rv">
+      <div class="g-step g1">
+        <div class="g-h"><span class="g-dot"></span><span class="g-n">저단계</span><span class="g-t">STABLE</span></div>
+        <p>미열, 감각 과민, 수면 장애. 일상생활 가능. 정기 하페로 관리 가능.</p>
+      </div>
+      <div class="g-step g2">
+        <div class="g-h"><span class="g-dot"></span><span class="g-n">중단계</span><span class="g-t">CAUTION</span></div>
+        <p>신체 변이 징후, 만성 통증, 감정 제어 불안정. 신체 손상 시작. 즉시 하페 필요.</p>
+      </div>
+      <div class="g-step g3">
+        <div class="g-h"><span class="g-dot"></span><span class="g-n">폭주 단계</span><span class="g-t">RAMPAGE</span></div>
+        <p>능력이 본인의 의지와 무관하게 발동·증폭된다. 이성적 판단력이 급격히 저하되며, 주변을 적과 아군 구분 없이 공격할 위험이 있다. 즉각적인 하페 없이는 강제 진정이 불가능하다.</p>
+      </div>
+      <div class="g-step g4">
+        <div class="g-h"><span class="g-dot"></span><span class="g-n">고단계</span><span class="g-t">CRITICAL</span></div>
+        <p>심각한 신체 변형, 자아 경계 불안정, 간헐적 의식 단절. 하페 효과 급격 저하. 종결 대상 보고 검토 시작.</p>
+      </div>
+      <div class="g-step g5">
+        <div class="g-h"><span class="g-dot"></span><span class="g-n">임계점</span><span class="g-t">COLLAPSE</span></div>
+        <p>자아 소멸 진행. 인간으로서의 의식 소실. 되돌릴 수 없다. 이 단계를 넘기면 붕괴체가 된다.</p>
+      </div>
+    </div>
+      </div>
+</section>
+
+<div class="fulcrum f-light-fix"></div>
+
+<!-- ══ 하페 ══ -->
+<section class="light" id="haphe" style="padding-top:0;">
+  <div class="wrap">
+    <div class="grid2">
+      <div class="sticky rv">
+        <div class="head">
+          <span class="eyebrow">Purification</span>
+          <h2 class="sec-title">하페</h2>
+          <div class="sec-en">Haphe</div>
+        </div>
+        <img class="ph" src="https://i.ifh.cc/X48pCJ.jpg" alt="하페 · 맞잡은 손" loading="lazy">
+      </div>
+      <div class="rv">
+        <p class="body">카타르가 테오의 카타르시스를 낮추는 정화 행위의 공식 명칭. <strong>신체 접촉을 기반으로</strong> 카타르가 대상의 오염을 자기 안으로 끌어들여 중화한다. 억제제보다 깊고 완전한 효과를 가진다. 접촉이 얕을수록 수치는 느리게 내려가며, 접촉의 농도가 깊어질수록 빠르게 정화된다. 하페를 통해 테오는 <strong class="gold">극상의 쾌감</strong>을 얻는다.</p>
+
+        <div class="pull" style="margin:clamp(26px,3vw,42px) 0;">
+          <div class="bar"></div>
+          <div class="k">“손 잡아줘”</div>
+          <div class="d">하페가 신체 접촉 기반이라는 데에서 파생된 엑시아 내부 은어. 평소에는 성적 농담이나 장난처럼 가볍게 쓰이지만, <strong class="gold">전장에서 피를 흘리며 말하면 같은 단어가 완전히 다른 무게를 가진다.</strong></div>
+        </div>
+
+        <div class="terms">
+          <div class="term">
+            <div class="term-h"><span class="en">MATCH RATE</span><span class="kr">매칭률</span></div>
+            <p>테오와 카타르의 선천적 공명 수치. 반복 접촉으로 미미하게 상승할 수는 있으나 본질적 적합도는 바뀌지 않는다. 수치가 높을수록 정화가 빠르며, <strong>매칭률이 높을수록 쾌감은 더욱 짙어진다.</strong></p>
+          </div>
+          <div class="term">
+            <div class="term-h"><span class="en">BRAND</span><span class="kr">각인</span></div>
+            <p>매칭률이 높은 테오와 카타르만이 할 수 있는 행위이자 <strong>족쇄.</strong> 각인된 테오는 해당 카타르의 하페가 아니면 카타르시스를 낮출 수 없고, 각인된 카타르는 해당 테오 외의 오염을 정화할 경우 극심한 고통을 받는다. 엑시아는 인력 부족을 이유로 암묵적으로 금지하고 있으나 공식 금지는 아니기에, 종종 각인한 자들이 나타난다.</p>
+          </div>
+          <div class="term" style="border-bottom:0;">
+            <div class="term-h"><span class="en">REQUEST</span><span class="kr">하페 신청</span></div>
+            <div>
+              <p>소속원은 부대 내 통신·행정 처리를 위한 개인 단말기를 필수로 소지한다. 하페 요청은 이 단말기를 통해 상대 카타르에게 직접 신청한다.</p>
+              <dl class="rows" style="margin-top:16px;">
+                <div class="row"><dt>일반 요청</dt><dd style="font-size:14px;">카타르가 거부 가능</dd></div>
+                <div class="row" style="border-bottom:0;"><dt>비상 요청</dt><dd style="font-size:14px;color:var(--blood);font-weight:500;">카타르가 거부 불가능</dd></div>
+              </dl>
+            </div>
+          </div>
+        </div>
+        <div class="cap">※ 하페는 정화실에서만 가능하다. 엑시아에는 여러 개의 정화실이 존재하며, 소파와 테이블, 간단한 샤워실이 있는 깔끔한 사무실 형태다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="fulcrum f-ld"></div>
+
+<!-- ══ 신타그마 ══ -->
+<section class="dark" id="syntagma">
+  <div class="wrap">
+    <div class="grid2">
+      <div class="sticky rv">
+        <div class="head">
+          <span class="eyebrow">Task Unit</span>
+          <h2 class="sec-title">신타그마</h2>
+          <div class="sec-en">Syntagma</div>
+        </div>
+        <p class="body">각 사단에서 차출된 <strong class="gold">2~4인</strong>으로 구성되는 임무 단위 혼성 팀.</p>
+      </div>
+      <div class="rv">
+        <div class="synt">
+          <div class="synt-grid">
+            <div class="sq">ARES<br>or</div>
+            <div class="sq">ATHENA<br>or</div>
+            <div class="sq">THANATOS</div>
+            <div class="sq req">APOLLO<br>필수</div>
+          </div>
+          <div class="synt-rule"><b>01</b><span>같은 사단에서 2인 이상 편성은 불가.</span></div>
+          <div class="synt-rule"><b>02</b><span>아폴론 소속 1인이 반드시 포함되어야 한다.</span></div>
+          <div class="synt-rule"><b>03</b><span>카타르 없는 신타그마는 승인되지 않는다.</span></div>
+        </div>
+        <dl class="rows" style="margin-top:clamp(24px,3vw,40px);">
+          <div class="row"><dt>배정형</dt><dd>ATHENA 전략 측 구성<small>임무 특성에 맞춰 신타그마를 구성한다. 대부분의 공식 작전이 이 방식.</small></dd></div>
+          <div class="row" style="border-bottom:0;"><dt>신청형</dt><dd>본인 직접 지정<small>테오 본인이 팀원을 지정해 구성하고 임무에 출두. 편성 규칙 충족 및 등급 심사 통과 필요.</small></dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 붕괴체 · 장비 ══ -->
+<section class="dark" id="equipment" style="padding-top:0;">
+  <div class="wrap">
+    <div class="grid2">
+      <div class="sticky rv">
+        <div class="head">
+          <span class="eyebrow">Aftermath &amp; Equipment</span>
+          <h2 class="sec-title">껍데기, 그리고<br>그것으로 만든 무기</h2>
+        </div>
+        <img class="ph" src="https://i.ifh.cc/DXWWVp.jpg" alt="붕괴체" loading="lazy">
+      </div>
+      <div class="terms rv">
+        <div class="term">
+          <div class="term-h"><span class="en">COLLAPSED</span><span class="kr">붕괴체</span></div>
+          <p>카타르시스가 임계점을 돌파하여 인간의 자아가 완전히 소멸한 존재. <strong class="gold">신의 힘만 남은 껍데기.</strong> 인간이었던 흔적만 남아 있으며 본능적으로 파괴하고 움직인다. THANATOS가 토벌하고 잔해를 수거하며, ATHENA 기술 측이 아니마 소재를 추출한다.</p>
+        </div>
+        <div class="term">
+          <div class="term-h"><span class="en">ANIMA</span><span class="kr">아니마</span></div>
+          <p>테오의 카타르시스를 연료처럼 태워서 작동하는 무기. <strong>쓸수록 카타르시스가 올라간다.</strong> 일반 무기로는 테오포로스에게 효과가 없기에 필요에 따라 사용한다. 핵심 소재는 붕괴체의 잔해에서 추출된다.</p>
+        </div>
+        <div class="term">
+          <div class="term-h"><span class="en">SUPPRESSANT</span><span class="kr">억제제</span></div>
+          <p>하페를 받지 못하는 인원을 위한 약물적 대안. 대량 생산이 가능하고 접근성이 높지만, 카타르시스를 완전히 낮추는 것이 아니라 진행을 늦추는 수준. 장기 복용 시 내성이 생기며 감각 둔화·감정 평탄화 부작용이 발생한다.</p>
+        </div>
+        <div class="term" style="border-bottom:0;">
+          <div class="term-h"><span class="en">ALTERED ZONE</span><span class="kr">변이지대</span></div>
+          <div>
+            <p>신들의 선택 이후 물리 법칙이 흔들리는 영역. 괴물이 돌아다니고 지구의 대지와 다르다. 지구 곳곳에 존재하며 엑시아의 주요 작전이 이 안에서 벌어진다. 진입 시간에 제한이 있다. <strong>신에 의해 세계 자체가 변질되고 있다는 것을 가장 적나라하게 보여주는 증거.</strong></p>
+            <img class="ph" src="https://i.ifh.cc/YO0WK3.jpg" alt="변이지대" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="fulcrum f-dl"></div>
+
+<!-- ══ 제복 ══ -->
+<section class="light" id="uniform" style="padding-bottom:clamp(36px,4vw,60px);">
+  <div class="wrap">
+    <div class="head rv" style="margin-bottom:0;">
+      <span class="eyebrow">Uniform</span>
+      <h2 class="sec-title">제복</h2>
+      <div class="sec-en">Two Colors</div>
+    </div>
+  </div>
+</section>
+
+<div class="uni">
+  <div class="u-theo">
+    <img class="ph" src="https://i.ifh.cc/Ka1MnK.jpg" alt="테오 제복" loading="lazy">
+    <div class="u-body">
+      <div class="u-t">THEO</div>
+      <div class="u-k">전투 계열 · BLACK</div>
+      <ul>
+        <li>흰색 와이셔츠</li><li>블랙 타이</li><li>검정 재킷</li>
+        <li>검정 정장 하의</li><li>어깨 은장</li><li>실버 단추</li><li>검정 군화</li>
+      </ul>
+    </div>
+  </div>
+  <div class="u-kath">
+    <img class="ph" src="https://i.ifh.cc/zyt1k1.jpg" alt="카타르 제복" loading="lazy">
+    <div class="u-body">
+      <div class="u-t">KATHAR</div>
+      <div class="u-k">정화 계열 · WHITE</div>
+      <ul>
+        <li>검정 와이셔츠</li><li>흰색 타이</li><li>흰색 재킷</li>
+        <li>흰색 정장 하의</li><li>어깨 금장</li><li>골드 단추</li><li>화이트 군화</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<section class="light" style="padding-top:clamp(28px,3vw,44px);">
+  <div class="wrap">
+    <div class="cap" style="margin-top:0;text-align:center;">하의는 바지 및 치마 선택 가능 · 전체적 통일감을 해치지 않는 선에서 개인 잡화 추가 가능</div>
+  </div>
+</section>
+
+<div class="fulcrum f-ld"></div>
+
+<footer>
+  <div class="f-rule"></div>
+  <div class="wm">EXIA</div>
+  <div class="sl">All For Equilibrium.</div>
+  <div class="m">EQUILIBRIUM XENOS INTERDICTION AUTHORITY<br>WORLD DOSSIER</div>
+</footer>
+
+<script>
+(function(){
+  var els=document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)||window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    els.forEach(function(e){e.classList.add('on');});return;
+  }
+  var io=new IntersectionObserver(function(en){
+    en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('on');io.unobserve(x.target);}});
+  },{rootMargin:'0px 0px -12% 0px',threshold:.06});
+  els.forEach(function(e){io.observe(e);});
+})();
+</script>
+</body>
+</html>
